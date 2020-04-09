@@ -3,7 +3,6 @@ const app = express();
 const exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'home'}));
 app.set('view engine', 'handlebars');
-require('./controllers/posts.js')(app);
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
@@ -15,9 +14,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Add after body parser initialization!
 app.use(expressValidator());
 
+require('./controllers/posts.js')(app);
+
 // Set db
 require('./data/reddit-db');
-require('./controllers/posts.js')(app);
+
 
 app.listen(3000, () => {
   console.log('Reddit listening on port localhost:3000!');
@@ -27,9 +28,6 @@ app.listen(3000, () => {
 
 //Routes
 
-app.get('/', (req, res) => {
-  res.render('test')
-})
 
 app.get('/posts/new', (req, res) => {
   res.render('posts-new')
