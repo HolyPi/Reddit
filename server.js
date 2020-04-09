@@ -3,6 +3,7 @@ const app = express();
 const exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'home'}));
 app.set('view engine', 'handlebars');
+require('./controllers/posts.js')(app);
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
@@ -28,9 +29,4 @@ app.listen(3000, () => {
 
 //Routes
 
-
-app.get('/posts/new', (req, res) => {
-  res.render('posts-new')
-
-})
 
