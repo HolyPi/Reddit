@@ -9,6 +9,7 @@ module.exports = app => {
     app.post('/post/new', (req, res) => {
         // INSTANTIATE INSTANCE OF POST MODEL
         const post = new Post(req.body);
+        
         // SAVE INSTANCE OF POST MODEL TO DB
         post.save((err, post) => {
             console.log(err)
@@ -20,9 +21,9 @@ module.exports = app => {
     });
 
     app.get("/", (req, res) => {
-        Post.find({})
+        Post.find({}).lean()
         .then(posts => {
-            console.log(posts)
+            console.log(posts[0])
             const context = {
                 posts: posts,
             }
@@ -35,12 +36,12 @@ module.exports = app => {
     
     app.get("/posts/:id", function(req, res) {
         // LOOK UP THE POST
-        Post.findById(req.params.id)
+        Post.findById(req.params.id).lean()
           .then(post => {
             const context = {
                 post: post 
             }
-            res.render("posts-show", { post: context.post });
+            res.render("posts-show", {post: context.post });
           })
           .catch(err => {
             console.log(err.message);
