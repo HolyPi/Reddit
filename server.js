@@ -16,7 +16,7 @@ app.use(expressValidator());
 
 // Set db
 require('./data/reddit-db');
-
+require('./controllers/comments.js')(app);
 require('./controllers/posts.js')(app);
 
 
