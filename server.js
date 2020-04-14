@@ -3,7 +3,6 @@ const app = express();
 const exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'home'}));
 app.set('view engine', 'handlebars');
-
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
@@ -28,3 +27,5 @@ app.listen(3000, () => {
 
 
 //Routes
+
+module.exports = app;
