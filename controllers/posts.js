@@ -30,7 +30,7 @@ module.exports = (app) => {
                 console.log("Error!")
                 console.log(err.message);
             })
-        } else {
+        }else{
             console.log("User is not authorized")
             res.sendStatus(401); // Unauthorized!
         }
@@ -38,6 +38,7 @@ module.exports = (app) => {
 
     app.get('/', (req, res) => {
         var currentUser = req.user;
+
         Post.find().populate('author').lean()
             .then(posts => {
                 res.render("posts-index", { posts, currentUser });
