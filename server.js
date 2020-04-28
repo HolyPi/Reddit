@@ -1,22 +1,16 @@
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 const express = require('express');
 const app = express();
-const exphbs  = require('express-handlebars');
-app.engine('handlebars', exphbs({defaultLayout: 'home'}));
-app.set('view engine', 'handlebars');
-const bodyParser = require('body-parser');
-const expressValidator = require('express-validator');
+
+// Middleware
 var cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
-app.use(cookieParser()); // Add this after you initialize express.
+const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
 
-
-
-// Use Body Parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// middleware
+app.engine('handlebars', exphbs({defaultLayout: 'home'}));
+app.set('view engine', 'handlebars');
 
 var checkAuth = (req, res, next) => {
   console.log("Checking authentication");
@@ -30,24 +24,25 @@ var checkAuth = (req, res, next) => {
 
   next();
 };
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use(checkAuth);
 
-// Add after body parser initialization!
-app.use(expressValidator());
 
-// Set db
-require('./data/reddit-db');
+// Add controllers
+require('./controllers/auth.js')(app);
 require('./controllers/comments.js')(app);
 require('./controllers/posts.js')(app);
-require('./controllers/auth.js')(app);
+require('./data/reddit-db');
 
 
+
+
+// Start Server
 app.listen(3000, () => {
-  console.log('Reddit listening on port localhost:3000!');
+    console.log('Reddit listening on port localhost:3000!');
 });
-
-
-
-//Routes
 
 module.exports = app;
