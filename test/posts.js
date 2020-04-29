@@ -18,7 +18,7 @@ const newPost = {
     title: 'post title',
     url: 'https://www.google.com',
     summary: 'post summary',
-    subreddit: 'cats'
+    subreddit: 'cats',
 };
 
 const user = {
@@ -35,8 +35,7 @@ describe('Posts', function() {
       // Checks how many posts there are now
         Post.estimatedDocumentCount()
           .then(function (initialDocCount) {
-              chai
-                  .request(server)
+              agent
                   .post("/posts/new")
                   // This line fakes a form post,
                   // since we're not actually filling out a form
@@ -69,8 +68,7 @@ describe('Posts', function() {
           // Checks how many posts there are now
         Post.estimatedDocumentCount()
           .then(function (initialDocCount) {
-              chai
-                  .request(server)
+              agent
                   .post("/posts/new")
                   // This line fakes a form post,
                   // since we're not actually filling out a form
