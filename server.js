@@ -29,12 +29,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(checkAuth);
+app.use(express.static('public'));
 
 
 // Add controllers
-require('./controllers/auth.js')(app);
+require('./controllers/posts')(app);
 require('./controllers/comments.js')(app);
-require('./controllers/posts.js')(app);
+require('./controllers/auth.js')(app);
+require('./controllers/replies.js')(app);
 require('./data/reddit-db');
 
 
